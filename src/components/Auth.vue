@@ -1,8 +1,12 @@
 <template>
-  <div class="hello">
+  <div>
 
+    <h1>{{ formTitle }}</h1>
+    <div>
+      <button @click="toggleRegister()">{{ toggleText }} </button>
+    </div>
     <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
-      <b-form-group id="input-group-1" label="Your Name:" label-for="input-1">
+      <b-form-group id="input-group-1" label="Your Name:" label-for="input-1" v-if="isRegister">
         <b-form-input
           id="input-1"
           v-model="name"
@@ -15,7 +19,6 @@
         id="input-group-2"
         label="Email address:"
         label-for="input-2"
-        description="We'll never share your email with anyone else."
       >
         <b-form-input
           id="input-2"
@@ -30,7 +33,6 @@
         id="input-group-3"
         label="Password:"
         label-for="input-3"
-        description="Choose something secure that you can remember"
       >
         <b-form-input
           id="input-3"
@@ -51,19 +53,29 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  name: 'HelloWorld',
+  name: 'Auth',
   data () {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      isRegister: false
     }
+  },
+  mounted () {
+    this.fetch_list()
   },
   methods: {
     ...mapActions('auth', [
       'register',
       'login'
     ]),
+    ...mapActions('collections', [
+      'fetch_list'
+    ]),
+    toggleRegister () {
+      this.isRegister = !this.isRegister
+    },
     onSubmit () {
       return this.register({ name: this.name, email: this.email, password: this.password }).then(() => {
         console.log('done!')
@@ -74,12 +86,19 @@ export default {
       this.email = ''
       this.password = ''
     }
+  },
+  computed: {
+    formTitle () {
+      return this.isRegister ? 'Register' : 'Login'
+    },
+    toggleText () {
+      return this.isRegister ? 'Login?' : 'Create Account?'
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 h3 {
   margin: 40px 0 0;
 }
