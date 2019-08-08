@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <Auth />
+    <component :is="homeComponent"></component>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Auth from '@/components/Auth.vue'
+import SelectRestaurant from '@/components/SelectRestaurant.vue'
 
+import { mapGetters } from 'vuex'
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
-    Auth
+    Auth,
+    SelectRestaurant
+  },
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+
+  },
+  computed: {
+    ...mapGetters([
+      'homeComponent'
+    ])
   }
 }
 </script>

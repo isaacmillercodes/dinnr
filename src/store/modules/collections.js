@@ -2,37 +2,32 @@ import firebase from 'firebase'
 
 const state = {
   seen: {
-    total: null,
-    id_list: [],
-    detail_list: []
+    list: [],
+    fetched: false
   },
   liked: {
-    total: null,
-    id_list: [],
-    detail_list: []
+    list: [],
+    fetched: false
   },
   disliked: {
-    total: null,
-    id_list: [],
-    detail_list: []
-  },
-  reviewed: {
-    total: null,
-    id_list: [],
-    detail_list: []
+    list: [],
+    fetched: false
   }
 }
 
 const getters = {
-  total: state => listType => state[listType].total,
-  ids: state => listType => state[listType].id_list,
-  details: state => listType => state[listType].detail_list
+  total: state => listType => state[listType].list.length,
+  ids: state => listType => state[listType].list.map(restaurant => restaurant.id),
+  details: state => listType => state[listType].list,
+  listFetched: state => listType => state[listType].fetched
 }
 
 const actions = {
-  fetch_list ({ dispatch, commit, state, rootState, getters, rootGetters }, listType) {
+  get_list ({ dispatch, commit, state, rootState, getters, rootGetters }, listType) {
     firebase.firestore().collection(`users/${rootGetters.auth.userId}/collections/${listType}`).get().then((querySnapshot) => {
+      console.log('query snapshot: ', querySnapshot)
       querySnapshot.forEach((doc) => {
+        console.log('collection: ')
         console.log(doc.data())
       })
     })

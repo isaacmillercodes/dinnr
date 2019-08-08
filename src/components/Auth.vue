@@ -1,93 +1,116 @@
 <template>
   <div>
+    <b-container>
+      <b-card :title="formTitle" class="text-center">
+        <b-form @submit.prevent="submitAuth()" @reset.prevent="resetForm">
+          <b-form-group id="name-input-group" label="Your Name:" label-for="name-input" v-if="isRegister">
+            <b-form-input
+              id="name-input"
+              v-model="displayName"
+              required
+              placeholder="Enter name"
+            ></b-form-input>
+          </b-form-group>
 
-    <h1>{{ formTitle }}</h1>
-    <div>
-      <button @click="toggleRegister()">{{ toggleText }} </button>
-    </div>
-    <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
-      <b-form-group id="input-group-1" label="Your Name:" label-for="input-1" v-if="isRegister">
-        <b-form-input
-          id="input-1"
-          v-model="name"
-          required
-          placeholder="Enter name"
-        ></b-form-input>
-      </b-form-group>
+          <b-form-group
+            id="email-input-group"
+            label="Email address:"
+            label-for="email-input"
+          >
+            <b-form-input
+              id="email-input"
+              v-model="email"
+              type="email"
+              required
+              placeholder="Enter email"
+            ></b-form-input>
+          </b-form-group>
 
-      <b-form-group
-        id="input-group-2"
-        label="Email address:"
-        label-for="input-2"
-      >
-        <b-form-input
-          id="input-2"
-          v-model="email"
-          type="email"
-          required
-          placeholder="Enter email"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-3"
-        label="Password:"
-        label-for="input-3"
-      >
-        <b-form-input
-          id="input-3"
-          v-model="password"
-          type="password"
-          required
-          placeholder="Password"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-
+          <b-form-group
+            id="password-input-group"
+            label="Password:"
+            label-for="password-input"
+          >
+            <b-form-input
+              id="password-input"
+              v-model="password"
+              type="password"
+              required
+              placeholder="Password"
+            ></b-form-input>
+          </b-form-group>
+        </b-form>
+        <div>
+          <b-button @click="submitAuth()" type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset Form</b-button>
+          <b-button @click="toggleRegister()" variant="success">{{ toggleText }} </b-button>
+        </div>
+      </b-card>
+    </b-container>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Auth',
+  name: 'auth',
   data () {
     return {
-      name: '',
+      displayName: '',
       email: '',
       password: '',
       isRegister: false
     }
   },
   mounted () {
-    this.fetch_list()
+    if (this.userIsLoggedIn) {
+      this.change_home_component('SelectRestaurant')
+    }
   },
   methods: {
+    ...mapActions([
+      'change_home_component'
+    ]),
     ...mapActions('auth', [
+      'checkUserStatus',
       'register',
       'login'
-    ]),
-    ...mapActions('collections', [
-      'fetch_list'
     ]),
     toggleRegister () {
       this.isRegister = !this.isRegister
     },
-    onSubmit () {
-      return this.register({ name: this.name, email: this.email, password: this.password }).then(() => {
-        console.log('done!')
+    submitAuth () {
+      const vm = this
+      const reqBody = { email: vm.email, password: vm.password }
+      let authMethod = null
+      if (vm.isRegister) {
+        reqBody.displayName = vm.displayName
+        authMethod = vm.register(reqBody)
+      } else {
+        authMethod = vm.login(reqBody)
+      }
+      console.log('authmethod?')
+      return authMethod.then(response => {
+        console.log('auth done!', response)
+        vm.checkUserStatus()
+        console.log('user getter: ', vm.userId, vm.userName, vm.userEmail)
+        this.change_home_component('SelectRestaurant')
+        return response
       })
     },
-    reset () {
-      this.name = ''
+    resetForm () {
+      this.displayName = ''
       this.email = ''
       this.password = ''
     }
   },
   computed: {
+    ...mapGetters('auth', [
+      'userIsLoggedIn',
+      'userId',
+      'userName',
+      'userEmail'
+    ]),
     formTitle () {
       return this.isRegister ? 'Register' : 'Login'
     },
@@ -99,18 +122,5 @@ export default {
 </script>
 
 <style lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
