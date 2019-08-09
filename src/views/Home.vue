@@ -5,9 +5,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Auth from '@/components/Auth.vue'
-import SelectRestaurant from '@/components/SelectRestaurant.vue'
+
+import Auth from '../components/Auth.vue'
+import SelectRestaurant from '../components/SelectRestaurant.vue'
 
 import { mapGetters } from 'vuex'
 export default {

@@ -53,7 +53,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'auth',
+  name: 'Auth',
   data () {
     return {
       displayName: '',

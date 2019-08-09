@@ -27,6 +27,8 @@ const actions = {
       })
     }).catch(err => {
       return err
+    }).catch(err => {
+      return err
     })
   },
   login ({ commit, state }, { email, password }) {
