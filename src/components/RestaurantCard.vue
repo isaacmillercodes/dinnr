@@ -6,7 +6,6 @@
           <b-col>
             <b-card-title>
               {{restaurant.name}}
-              <!-- <span class="card-subtitle text-muted"><h6>{{restaurant.location.locality_verbose}}</h6></span> -->
             </b-card-title>
           </b-col>
           <b-col>
@@ -53,20 +52,9 @@
 </template>
 
 <script>
-
 export default {
   name: 'RestaurantCard',
-  props: ['restaurant'],
-  data() {
-    return {
-    }
-  },
-  mounted() {
-  },
-  methods: {
-  },
-  computed: {
-  }
+  props: ['restaurant']
 }
 </script>
 

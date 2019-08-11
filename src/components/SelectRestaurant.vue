@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!cityId">
+    <div v-if="!currentCityId">
       <CitySearch />
     </div>
     <div v-else>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-
 import { mapGetters, mapActions } from 'vuex'
 import CitySearch from './CitySearch'
 import RestaurantCard from './RestaurantCard'
@@ -48,8 +47,6 @@ export default {
       transitionType: 'slide-right'
     }
   },
-  mounted() {
-  },
   methods: {
     ...mapActions('restaurants', [
       'swipe_restaurant'
@@ -57,16 +54,14 @@ export default {
     judgeRestaurant(liked) {
       this.transitionType = liked ? 'slide-right' : 'slide-left'
       return this.swipe_restaurant(liked).then(results => {
-        console.log('results?', results)
         return results
       })
     }
   },
   computed: {
     ...mapGetters('restaurants', [
-      'cityId',
+      'currentCityId',
       'loadingRestaurants',
-      'restaurantList',
       'currentRestaurant'
     ])
   }

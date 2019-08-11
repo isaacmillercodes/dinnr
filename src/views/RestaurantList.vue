@@ -8,7 +8,7 @@
       <div v-else>
         <b-container>
           <b-row>
-            <b-col sm="8">
+            <b-col sm="4" offset-sm="2" class="text-left">
                 <b-dropdown
                   variant="default"
                   :text="listTitle"
@@ -24,14 +24,14 @@
             <b-col sm="2">
               <b-form-input v-model="searchTerm" placeholder="Search..."></b-form-input>
             </b-col>
-            <b-col sm="2">
+            <b-col sm="2" class="pl-1 pr-1">
               <b-form-select v-model="sortBy" :options="sortOptions"></b-form-select>
             </b-col>
           </b-row>
         </b-container>
         <b-container>
           <b-row>
-            <b-col sm="8" offset-sm="2">
+            <b-col sm="10" offset-sm="1">
               <div v-if="sortedList.length">
                 <RestaurantCard class="restaurant-list-card" v-for="restaurant in sortedList" :restaurant="restaurant" :key="restaurant.id" />
               </div>
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-
 import { mapGetters, mapActions } from 'vuex'
 import RestaurantCard from '../components/RestaurantCard'
 export default {
@@ -80,7 +79,6 @@ export default {
       'get_list'
     ]),
     async toggleList(type) {
-      console.log('toggle list: ', type)
       if (!this.listFetched(type)) {
         this.loading = true
         await this.get_list({ listType: type })
@@ -89,7 +87,6 @@ export default {
       this.listType = type
     },
     sortList(list, propertyString, isDescending) {
-      console.log('list?', list)
       if (this.searchTerm.length) {
         list = list.filter(restaurant => {
           const valuesToCheck = [
@@ -101,7 +98,7 @@ export default {
         })
       }
       if (!propertyString) {
-        return list
+        return list.reverse()
       }
       const sorted = list.sort((a, b) => {
         const propertiesList = propertyString.split('.')
@@ -125,8 +122,6 @@ export default {
   },
   computed: {
     ...mapGetters('collections', [
-      'total',
-      'ids',
       'details',
       'listFetched'
     ]),

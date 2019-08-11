@@ -1,51 +1,60 @@
 <template>
   <div>
     <b-container>
-      <b-card :title="formTitle" class="text-center">
-        <b-form @submit.prevent="submitAuth()" @reset.prevent="resetForm">
-          <b-form-group id="name-input-group" label="Your Name:" label-for="name-input" v-if="isRegister">
-            <b-form-input
-              id="name-input"
-              v-model="displayName"
-              required
-              placeholder="Enter name"
-            ></b-form-input>
-          </b-form-group>
+      <b-row>
+        <b-col sm="8" offset-sm="2">
+          <b-card :title="formTitle" class="text-center">
+            <b-form @submit.prevent="submitAuth()" @reset.prevent="resetForm">
+              <b-form-group id="name-input-group" label="Your Name:" label-for="name-input" v-if="isRegister">
+                <b-form-input
+                  id="name-input"
+                  v-model="displayName"
+                  required
+                  placeholder="Enter name"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group
-            id="email-input-group"
-            label="Email address:"
-            label-for="email-input"
-          >
-            <b-form-input
-              id="email-input"
-              v-model="email"
-              type="email"
-              required
-              placeholder="Enter email"
-            ></b-form-input>
-          </b-form-group>
+              <b-form-group
+                id="email-input-group"
+                label="Email address:"
+                label-for="email-input"
+              >
+                <b-form-input
+                  id="email-input"
+                  v-model="email"
+                  type="email"
+                  required
+                  placeholder="Enter email"
+                ></b-form-input>
+              </b-form-group>
 
-          <b-form-group
-            id="password-input-group"
-            label="Password:"
-            label-for="password-input"
-          >
-            <b-form-input
-              id="password-input"
-              v-model="password"
-              type="password"
-              required
-              placeholder="Password"
-            ></b-form-input>
-          </b-form-group>
-        </b-form>
-        <div>
-          <b-button @click="submitAuth()" type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset Form</b-button>
-          <b-button @click="toggleRegister()" variant="success">{{ toggleText }} </b-button>
-        </div>
-      </b-card>
+              <b-form-group
+                id="password-input-group"
+                label="Password:"
+                label-for="password-input"
+              >
+                <b-form-input
+                  id="password-input"
+                  v-model="password"
+                  type="password"
+                  required
+                  placeholder="Password"
+                ></b-form-input>
+              </b-form-group>
+            </b-form>
+            <b-container>
+              <b-row align-h="center">
+                <b-col class="text-right">
+                  <b-button @click="submitAuth()" type="submit" variant="primary">Submit</b-button>
+                </b-col>
+                <b-col class="text-left">
+                  <b-button @click="toggleRegister()" variant="success">{{ toggleText }} </b-button>
+                </b-col>
+              </b-row>
+            </b-container>
+          </b-card>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -94,19 +103,11 @@ export default {
         this.change_home_component('SelectRestaurant')
         return response
       })
-    },
-    resetForm() {
-      this.displayName = ''
-      this.email = ''
-      this.password = ''
     }
   },
   computed: {
     ...mapGetters('auth', [
-      'userIsLoggedIn',
-      'userId',
-      'userName',
-      'userEmail'
+      'userIsLoggedIn'
     ]),
     formTitle() {
       return this.isRegister ? 'Register' : 'Login'
