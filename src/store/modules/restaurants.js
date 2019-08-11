@@ -128,6 +128,7 @@ const mutations = {
   },
   remove_current_restaurant(state) {
     state.restaurantList.splice(0, 1)
+    console.log('new current:', state.restaurantList[0])
   },
   set_loading_restaurants(state, status) {
     state.loadingRestaurants = status

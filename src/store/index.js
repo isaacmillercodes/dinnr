@@ -16,7 +16,7 @@ export default new Vuex.Store({
     homeComponent: state => state.homeComponent
   },
   actions: {
-    go_to_route({ }, routeObject) {
+    go_to_route({ commit }, routeObject) {
       router.push(routeObject)
     },
     change_home_component({ commit }, newComponent) {

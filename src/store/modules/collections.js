@@ -24,12 +24,15 @@ const getters = {
 
 const actions = {
   get_list({ dispatch, commit, state, rootState, getters, rootGetters }, { listType }) {
+    console.log('getting list!', listType)
+    console.log('with this user: ', `${rootGetters['auth/userId']}`)
     return firebase.firestore()
       .collection('users')
       .doc(`${rootGetters['auth/userId']}`)
       .collection(`${listType}`)
       .get().then(querySnapshot => {
         const newList = []
+        console.log('querySnapshot', querySnapshot)
         querySnapshot.forEach(doc => {
           newList.push(doc.data())
         })
@@ -67,6 +70,7 @@ const mutations = {
   set_list(state, { list, listType }) {
     state[listType].list = list
     state[listType].fetched = true
+    console.log('new list!', state[listType])
   },
   insert_into_list(state, { listType, restaurant }) {
     state[listType].list.push(restaurant)
