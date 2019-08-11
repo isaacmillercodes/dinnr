@@ -114,6 +114,16 @@ const mutations = {
   //   state.resultsIndex += increment
   // },
   set_next_restaurants(state, restaurants) {
+    // shuffle before setting
+    let currentIndex = restaurants.length
+    let temporaryValue, randomIndex
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex -= 1
+      temporaryValue = restaurants[currentIndex]
+      restaurants[currentIndex] = restaurants[randomIndex]
+      restaurants[randomIndex] = temporaryValue
+    }
     state.restaurantList = restaurants
   },
   remove_current_restaurant(state) {

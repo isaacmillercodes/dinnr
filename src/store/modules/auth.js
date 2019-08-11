@@ -46,7 +46,7 @@ const actions = {
       return err
     })
   },
-  logout({ commit, state }) {
+  logout({ commit, dispatch, state }) {
     return firebase.auth().signOut().then(() => {
       commit('logout')
     }).catch((err) => {
@@ -55,7 +55,7 @@ const actions = {
   },
   checkUserStatus({ commit, state }) {
     return firebase.auth().onAuthStateChanged((user) => {
-      if (user.uid) {
+      if (user && user.uid) {
         commit('set_user', user)
         commit('set_user_logged_in', true)
         return user
@@ -70,6 +70,7 @@ const actions = {
 const mutations = {
   logout(state) {
     state.user = null
+    state.userIsLoggedIn = false
   },
   set_user(state, { uid, displayName, email }) {
     state.user = { uid, displayName, email }

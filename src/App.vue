@@ -1,12 +1,41 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="nav" v-if="userIsLoggedIn">
+      <b-link to="/" v-if="$route.name === 'RestaurantList'">Find Restaurants</b-link>
+      <b-link to="/restaurants" v-if="$route.name === 'Home'">Your Restaurants</b-link> |
+      <b-link @click="triggerLogout()">Log Out</b-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+  import { mapGetters, mapActions } from 'vuex'
+  export default {
+    mounted() {
+      console.log(this.$route)
+    },
+    methods: {
+      ...mapActions([
+        'change_home_component'
+      ]),
+      ...mapActions('auth', [
+        'logout'
+      ]),
+      triggerLogout() {
+        return this.logout().then(() => this.change_home_component('Auth'))
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'homeComponent'
+      ]),
+      ...mapGetters('auth', [
+        'userIsLoggedIn'
+      ])
+    }
+  }
+</script>
 
 <style lang="scss">
 #app {

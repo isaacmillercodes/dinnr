@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router'
 import auth from './modules/auth'
 import collections from './modules/collections'
 import restaurants from './modules/restaurants'
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     homeComponent: state => state.homeComponent
   },
   actions: {
+    go_to_route({ }, routeObject) {
+      router.push(routeObject)
+    },
     change_home_component({ commit }, newComponent) {
       commit('set_home_component', newComponent)
     }
