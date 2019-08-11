@@ -23,21 +23,23 @@ const getters = {
 }
 
 const actions = {
-  get_list ({ dispatch, commit, state, rootState, getters, rootGetters }, listType) {
+  get_list({ dispatch, commit, state, rootState, getters, rootGetters }, { listType }) {
     return firebase.firestore()
       .collection('users')
       .doc(`${rootGetters['auth/userId']}`)
       .collection(`${listType}`)
-      .get().then(response => {
-        if (response.data.exists) {
-          commit('set_list', { list: response.data, listType })
-        }
-        return response.data
+      .get().then(querySnapshot => {
+        const newList = []
+        querySnapshot.forEach(doc => {
+          newList.push(doc.data())
+        })
+        commit('set_list', { list: newList, listType })
+        return newList
       }).catch(err => {
         return err
       })
   },
-  add_to_list ({ dispatch, commit, state, rootState, getters, rootGetters }, { listType, restaurant }) {
+  add_to_list({ dispatch, commit, state, rootState, getters, rootGetters }, { listType, restaurant }) {
     const judged = firebase.firestore()
       .collection('users')
       .doc(`${rootGetters['auth/userId']}`)
@@ -52,8 +54,9 @@ const actions = {
       .doc(restaurant.id)
       .set(restaurant)
 
-    return Promise.all([judged, seen]).then(() => {
-      return commit('insert_into_list', { listType, restaurant })
+    return Promise.all([judged, seen]).then(results => {
+      commit('insert_into_list', { listType, restaurant })
+      return results
     }).catch(err => {
       return err
     })
@@ -61,11 +64,11 @@ const actions = {
 }
 
 const mutations = {
-  set_list (state, { list, listType }) {
+  set_list(state, { list, listType }) {
     state[listType].list = list
     state[listType].fetched = true
   },
-  insert_into_list  (state, { listType, restaurant }) {
+  insert_into_list(state, { listType, restaurant }) {
     state[listType].list.push(restaurant)
     state.seen.list.push(restaurant)
   }

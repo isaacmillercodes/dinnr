@@ -15,12 +15,12 @@ export default new Vuex.Store({
     homeComponent: state => state.homeComponent
   },
   actions: {
-    change_home_component ({ commit }, newComponent) {
+    change_home_component({ commit }, newComponent) {
       commit('set_home_component', newComponent)
     }
   },
   mutations: {
-    set_home_component (state, newComponent) {
+    set_home_component(state, newComponent) {
       state.homeComponent = newComponent
     }
   },

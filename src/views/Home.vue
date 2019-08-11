@@ -16,7 +16,7 @@ export default {
     Auth,
     SelectRestaurant
   },
-  data () {
+  data() {
     return {
 
     }

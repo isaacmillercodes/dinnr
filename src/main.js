@@ -7,10 +7,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './firebase/'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUtensils, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUtensils, faTimesCircle, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUtensils, faTimesCircle)
+library.add(faUtensils, faTimesCircle, faSpinner)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

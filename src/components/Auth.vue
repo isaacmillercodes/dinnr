@@ -54,7 +54,7 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Auth',
-  data () {
+  data() {
     return {
       displayName: '',
       email: '',
@@ -62,7 +62,7 @@ export default {
       isRegister: false
     }
   },
-  mounted () {
+  mounted() {
     if (this.userIsLoggedIn) {
       this.change_home_component('SelectRestaurant')
     }
@@ -76,10 +76,10 @@ export default {
       'register',
       'login'
     ]),
-    toggleRegister () {
+    toggleRegister() {
       this.isRegister = !this.isRegister
     },
-    submitAuth () {
+    submitAuth() {
       const vm = this
       const reqBody = { email: vm.email, password: vm.password }
       let authMethod = null
@@ -89,16 +89,13 @@ export default {
       } else {
         authMethod = vm.login(reqBody)
       }
-      console.log('authmethod?')
       return authMethod.then(response => {
-        console.log('auth done!', response)
         vm.checkUserStatus()
-        console.log('user getter: ', vm.userId, vm.userName, vm.userEmail)
         this.change_home_component('SelectRestaurant')
         return response
       })
     },
-    resetForm () {
+    resetForm() {
       this.displayName = ''
       this.email = ''
       this.password = ''
@@ -111,10 +108,10 @@ export default {
       'userName',
       'userEmail'
     ]),
-    formTitle () {
+    formTitle() {
       return this.isRegister ? 'Register' : 'Login'
     },
-    toggleText () {
+    toggleText() {
       return this.isRegister ? 'Login?' : 'Create Account?'
     }
   }
