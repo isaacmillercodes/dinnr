@@ -69,7 +69,11 @@ const actions = {
 
 const mutations = {
   logout(state) {
-    state.user = null
+    state.user = {
+      uid: null,
+      displayName: '',
+      email: ''
+    }
     state.userIsLoggedIn = false
   },
   set_user(state, { uid, displayName, email }) {
