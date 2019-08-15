@@ -42,12 +42,12 @@ const actions = {
   reset_city({ commit }) {
     commit('set_city', { id: null, name: '' })
   },
-  get_categories({ commit, dispatch, getters }) {
+  get_categories({ commit }) {
     return axios.get(`${zomatoUrl}/categories`, axiosConfig).then(response => {
       return commit('set_categories', response.data.categories.map(item => item.categories.id))
     })
   },
-  get_cuisines({ commit, dispatch, getters }) {
+  get_cuisines({ commit, getters }) {
     const url = `${zomatoUrl}/cuisines?city_id=${getters.currentCityId}`
     return axios.get(url, axiosConfig).then(response => {
       return commit('set_cuisines', response.data.cuisines.map(item => item.cuisine.cuisine_id))
@@ -82,7 +82,7 @@ const actions = {
       return results
     })
   },
-  swipe_restaurant({ commit, dispatch, getters, rootGetters }, didLikeRestaurant) {
+  swipe_restaurant({ commit, dispatch, getters }, didLikeRestaurant) {
     const listType = didLikeRestaurant ? 'liked' : 'disliked'
     const restaurant = Object.assign({}, getters.currentRestaurant)
     return dispatch('collections/add_to_list', { listType, restaurant }, { root: true }).then(() => {

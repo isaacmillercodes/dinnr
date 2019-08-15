@@ -17,7 +17,7 @@ const getters = {
 }
 
 const actions = {
-  register({ commit, state }, { displayName, email, password }) {
+  register(context, { displayName, email, password }) {
     return firebase.auth().createUserWithEmailAndPassword(email, password).then(user => {
       const current = firebase.auth().currentUser
       return current.updateProfile({ displayName }).then(() => {
@@ -39,21 +39,14 @@ const actions = {
       return err
     })
   },
-  login({ commit, state }, { email, password }) {
+  login(context, { email, password }) {
     return firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
       return user
     }).catch(err => {
       return err
     })
   },
-  logout({ commit, dispatch, state }) {
-    return firebase.auth().signOut().then(() => {
-      commit('logout')
-    }).catch((err) => {
-      return err
-    })
-  },
-  checkUserStatus({ commit, state }) {
+  checkUserStatus({ commit }) {
     return firebase.auth().onAuthStateChanged((user) => {
       if (user && user.uid) {
         commit('set_user', user)
@@ -63,6 +56,13 @@ const actions = {
         commit('set_user_logged_in', false)
         return new Error('User is not logged in.')
       }
+    })
+  },
+  logout({ commit }) {
+    return firebase.auth().signOut().then(() => {
+      commit('logout')
+    }).catch((err) => {
+      return err
     })
   }
 }
