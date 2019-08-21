@@ -46,11 +46,11 @@ export default {
       }
       this.go_to_route({ path: '/' })
     },
-    triggerLogout() {
-      return this.logout().then(() => {
-        this.change_home_component('Auth')
-        this.go_to_route({ path: '/' })
-      })
+    async triggerLogout() {
+      await this.logout()
+      await this.reset_city()
+      this.change_home_component('Auth')
+      this.go_to_route({ path: '/' })
     }
   },
   computed: {
