@@ -26,8 +26,8 @@ const getters = {
 
 const actions = {
   get_city({ commit, dispatch, getters }, query) {
+    commit('set_loading_restaurants', true)
     return axios.get(`${zomatoUrl}/cities?q=${query}`, axiosConfig).then(async(response) => {
-      commit('set_loading_restaurants', true)
       const cities = response.data.location_suggestions
       const { id, name } = cities[0]
       if (cities.length) {
