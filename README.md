@@ -1,29 +1,8 @@
 # dinnr
+_by Isaac Miller_
 
-## Project setup
-```
-npm install
-```
+This is the demo/companion app for my talk "Uncanny, Vuex Man!" which debuted at [Develop Denver 2019](https://developdenver.org/). The talk is an introduction to state management concepts and how those concepts play out within Vuex. 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This app leverages the Zomato API to create a "Tinder for Restaurants!". I know, it's cheesey (pun intended) but I created it to provide simple examples relevant to many applications including asynchonous processes, basic auth, and collection management. Maybe next time I'll try a DoorDash for Animal Rescues.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+You can find relevant links to the Develop Denver talk over at their [Github](https://github.com/developdenver/2019-dvlpdnvr-talks/).
